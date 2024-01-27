@@ -24,7 +24,8 @@ fi
 for i in $(seq $iteration)
 do
 	ARG=$(python3 generate_random.py $size)
-	OUTPUT=$(../push_swap $ARG | tee solution.txt | wc -l)
+	OUTPUT=$(../push_swap/push_swap $ARG | tee solution.txt | wc -l)
+	MOYENNE=$(($MOYENNE+$OUTPUT))
 	check=$(cat solution.txt | ./checker $ARG)
 	if [ "$OUTPUT" -gt "$limit" ];
 	then
@@ -45,8 +46,10 @@ do
 	fi
 	echo -ne "${GREEN}Test(s) completed [$i/$iteration]                      ${NC}\r"
 done
+MOYENNE=$(($MOYENNE/$iteration))
 echo -ne "\n"
 echo "All tests were valid!"
+echo "For a list of $size number(s) the average moves is $MOYENNE upon $iteration tests"
 
 # ARG=$(python3 generate_random.py)
 # OUTPUT="$(./push_swap $ARG | wc -l)"
