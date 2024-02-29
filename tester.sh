@@ -8,6 +8,9 @@ GREEN='\033[0;32m'
 
 #endif
 
+AVERAGE=$((0))
+MAX=0
+MIN=100000000
 if [ $# -gt 0 ];
 then
 	iteration=$1
@@ -24,9 +27,17 @@ fi
 for i in $(seq $iteration)
 do
 	ARG=$(python3 generate_random.py $size)
-	OUTPUT=$(../push_swap/push_swap $ARG | tee solution.txt | wc -l)
-	MOYENNE=$(($MOYENNE+$OUTPUT))
-	check=$(cat solution.txt | ./checker $ARG)
+	OUTPUT=$(../push_swap $ARG | tee solution.txt | wc -l)
+	check=$(cat solution.txt | ./checker_linux $ARG)
+	AVERAGE=$(($(($OUTPUT))+$(($AVERAGE))))
+	if [ "$OUTPUT" -gt "$MAX" ];
+	then
+		MAX=$OUTPUT
+	fi
+	if [ "$OUTPUT" -lt "$MIN" ];
+	then
+		MIN=$OUTPUT
+	fi
 	if [ "$OUTPUT" -gt "$limit" ];
 	then
 		echo -e "${RED}!!!!!!!     This test reach the limit of action allowed: $OUTPUT      !!!!!!!"
@@ -37,6 +48,7 @@ do
 	if [ "$check" = "KO" ];
 	then
 		echo -e "${RED}!!!!!!!     This test has the wrong solution: $i     !!!!!!!${NC}"
+		echo $ARG > trace.txt
 		exit
 	fi
 	if [ "$check" = "error" ];
@@ -46,10 +58,12 @@ do
 	fi
 	echo -ne "${GREEN}Test(s) completed [$i/$iteration]                      ${NC}\r"
 done
-MOYENNE=$(($MOYENNE/$iteration))
 echo -ne "\n"
 echo "All tests were valid!"
-echo "For a list of $size number(s) the average moves is $MOYENNE upon $iteration tests"
+AVERAGE=$(($(($AVERAGE))/$(($i))))
+echo "Average number of moves: $AVERAGE"
+echo "Maximum move: $MAX"
+echo "Minimum move: $MIN"
 
 # ARG=$(python3 generate_random.py)
 # OUTPUT="$(./push_swap $ARG | wc -l)"
