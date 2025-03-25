@@ -1,7 +1,7 @@
 
 # My push swap tester
 
-Ceci est un testeur ecrit en shell et en python generant un nombre des listes de nombres aletatoires selon une plage donnee, les envoit au programme "push_swap" et verifie les solutions grace au "./checker_linux" donne dans le sujet. De plus, il verifie si la soluition ne fait pas plus qu'un nombre de coup maximum donne.
+Ceci est un testeur ecrit en shell et en python generant un nombre des listes de nombres aletatoires selon une plage donnee, les envoit au programme "push_swap" et verifie les solutions grace au "./checker_linux" donne dans le sujet. De plus, il verifie si la solution ne fait pas plus qu'un nombre de coup maximum donne.
 
 En cas de succes, il retourne une moyenne du nombre de coup, le nombre de coup maximum et minimum.
 
@@ -10,6 +10,8 @@ En cas d'echec, il affiche la raison et enregistre dans "trace.txt" l'arguement 
 
 
 UTILISATION DU TESTER:
+
+Doit etre pull dans le dossier ou se trouve ./push_swap.
 
 ./tester.sh [ITERATIONS] [SIZE_LIST] [MAX_MOVES]
 
